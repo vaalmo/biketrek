@@ -20,6 +20,7 @@ target="#navbarNavAltMarkup"
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup"> 
         <div class="navbar-nav ms-auto"> 
           <a class="nav-link active" href="{{ route('product.index') }}"">Products</a>
+          <a class="nav-link active" href="{{ route('cart.index') }}"">Cart</a>
         </div> 
       </div> 
     </div> 
@@ -27,7 +28,7 @@ target="#navbarNavAltMarkup"
  
   <header class="masthead bg-primary text-white text-center py-4"> 
     <div class="container d-flex align-items-center flex-column"> 
-      <h2>@yield('subtitle', 'Fondo de Bikini')</h2> 
+      <h2>@yield('subtitle', 'BikeTrek')</h2> 
     </div> 
   </header> 
   <!-- header --> 

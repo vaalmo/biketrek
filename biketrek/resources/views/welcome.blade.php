@@ -2,10 +2,10 @@
 @section('title', 'Home Page - BikeTrek') 
 @section('content') 
 <div class="text-center"> 
-    Bienvenido a FOndo de Bikini 
+    Welcome to BikeTrek 
 </div> 
 <div class="text-center"> 
-    Podrás encontrar una amplia cantidad de peces de diferentes especies!
+    Buy the bike of your dreams, and share routes with the community!
 </div> 
 
 @endsection
