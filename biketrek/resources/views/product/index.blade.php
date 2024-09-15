@@ -3,13 +3,13 @@
 @section('subtitle', $viewData["subtitle"])
 @section('content')
 <div class="row">
-  @foreach ($viewData["routes"] as $route)
+  @foreach ($viewData["products"] as $product)
   <div class="col-md-4 col-lg-3 mb-2">
     <div class="card">
-      <img src="https://laravel.com/img/logotype.min.svg" class="card-img-top img-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3SZk_6fWHKhPS1nx5vkmxjQVL2Z7TRX6qHA&s" class="card-img-top img-card" alt="Bike image">
       <div class="card-body text-center">
-        <a href="{{ route('route.show', ['id'=> $route["id"]]) }}"
-          class="btn bg-primary text-white">{{ $route["name"] }}</a>
+        <a href="{{ route('product.show', ['id'=> $product["id"]]) }}"
+          class="btn bg-primary text-white">{{ $product["name"] }}</a>
       </div>
     </div>
   </div>
