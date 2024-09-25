@@ -1,30 +1,37 @@
-@extends('layouts.app')
-@section("title", $viewData["title"])
-@section('content')
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">Create bike product</div>
-          <div class="card-body">
-            @if($errors->any())
-            <ul id="errors" class="alert alert-danger list-unstyled">
-              @foreach($errors->all() as $error)
-              <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-            @endif
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Product</title>
+</head>
+<body>
+    <h1>Create Product</h1>
 
-            <form method="POST" action="{{ route('product.save') }}">
-              @csrf
-              <input type="text" class="form-control mb-2" placeholder="Enter bike name" name="name" value="{{ old('name') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter bike price" name="price" value="{{ old('price') }}" />
-              <input type="submit" class="btn btn-primary" value="Send" />
-            </form>
-          </div>
+    @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-@endsection
+    @endif
+
+    <form action="{{ route('products.save') }}" method="POST">
+        @csrf
+
+        <label for="name">Product Name:</label>
+        <input type="text" name="name" id="name" required><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" id="description"></textarea><br>
+
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" required><br>
+
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" id="stock" value="0" required><br>
+
+        <button type="submit">Create Product</button>
+    </form>
+</body>
+</html>

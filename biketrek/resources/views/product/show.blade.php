@@ -1,3 +1,4 @@
+show blade p 	
 @extends('layouts.app')
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
@@ -19,3 +20,4 @@
   </div>
 </div>
 @endsection
+ 	
