@@ -1,37 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Product</title>
-</head>
-<body>
-    <h1>Create Product</h1>
-
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+@extends('layouts.app')
+@section("title", $viewData["title"])
+@section('content')
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Create Product</div>
+          <div class="card-body">
+            @if($errors->any())
+            <ul id="errors" class="alert alert-danger list-unstyled">
+              @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
             </ul>
+            @endif
+
+            <form method="POST" action="{{ route('product.save') }}">
+              @csrf
+              <input type="text" class="form-control mb-2" placeholder="Enter name" name="name" value="{{ old('name') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter description" name="description" value="{{ old('description') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter price " name="price" value="{{ old('price') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter stock" name="stock" value="{{ old('stock') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter image" name="image" value="{{ old('image') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter brand" name="brand" value="{{ old('brand') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter type" name="type" value="{{ old('type') }}" />
+              <input type="text" class="form-control mb-2" placeholder="Enter color" name="color" value="{{ old('color') }}" />
+              <input type="submit" class="btn btn-primary" value="Send" />
+            </form>
+          </div>
         </div>
-    @endif
-
-    <form action="{{ route('products.save') }}" method="POST">
-        @csrf
-
-        <label for="name">Product Name:</label>
-        <input type="text" name="name" id="name" required><br>
-
-        <label for="description">Description:</label>
-        <textarea name="description" id="description"></textarea><br>
-
-        <label for="price">Price:</label>
-        <input type="number" name="price" id="price" required><br>
-
-        <label for="stock">Stock:</label>
-        <input type="number" name="stock" id="stock" value="0" required><br>
-
-        <button type="submit">Create Product</button>
-    </form>
-</body>
-</html>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection

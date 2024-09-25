@@ -1,4 +1,3 @@
-index
 @extends('layouts.app')
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
@@ -10,7 +9,7 @@ index
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3SZk_6fWHKhPS1nx5vkmxjQVL2Z7TRX6qHA&s" class="card-img-top img-card" alt="Bike image">
       <div class="card-body text-center">
         <a href="{{ route('product.show', ['id'=> $product["id"]]) }}"
-          class="btn bg-primary text-white">{{ $product["name"] }}</a>
+          class="btn bg-primary text-white">{{ $product->getName() }}</a>
       </div>
     </div>
   </div>

@@ -1,4 +1,3 @@
-show blade p 	
 @extends('layouts.app')
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
@@ -15,9 +14,12 @@ show blade p
         </h5>
         <p class="card-text">{{ $viewData["product"]["description"] }}</p>
         <p class="card-text"><strong>Price:</strong> ${{ $viewData["product"]["price"] }}</p>
+        <a class="btn btn-primary" href="{{ route('cart.add', ['id'=> $viewData["product"]["id"]]) }}">Add to cart</a>
+
       </div>
     </div>
   </div>
 </div>
+
 @endsection
  	
