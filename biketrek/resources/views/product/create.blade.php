@@ -1,36 +1,54 @@
 @extends('layouts.app')
 @section("title", $viewData["title"])
+
 @section('content')
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">Create Product</div>
-          <div class="card-body">
-            @if($errors->any())
-            <ul id="errors" class="alert alert-danger list-unstyled">
-              @foreach($errors->all() as $error)
-              <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-            @endif
+    <h1>Crear Producto</h1>
 
-            <form method="POST" action="{{ route('product.save') }}">
-              @csrf
-              <input type="text" class="form-control mb-2" placeholder="Enter name" name="name" value="{{ old('name') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter description" name="description" value="{{ old('description') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter price " name="price" value="{{ old('price') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter stock" name="stock" value="{{ old('stock') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter image" name="image" value="{{ old('image') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter brand" name="brand" value="{{ old('brand') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter type" name="type" value="{{ old('type') }}" />
-              <input type="text" class="form-control mb-2" placeholder="Enter color" name="color" value="{{ old('color') }}" />
-              <input type="submit" class="btn btn-primary" value="Send" />
-            </form>
-          </div>
+    <form method="POST" action="{{ route('product.save') }}" enctype="multipart/form-data">
+        @csrf
+
+        <div class="form-group">
+            <label for="name">Nombre del Producto</label>
+            <input type="text" id="name" name="name" class="form-control" required>
         </div>
-      </div>
-    </div>
-  </div>
+
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Precio</label>
+            <input type="number" step="0.01" id="price" name="price" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Cantidad en stock</label>
+            <input type="number" id="stock" name="stock" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Imagen del Producto</label>
+            <input type="file" id="image" name="image" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Marca</label>
+            <input type="text" id="brand" name="brand" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="type">Tipo</label>
+            <input type="text" id="type" name="type" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" id="color" name="color" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear Producto</button>
+    </form>
 </div>
 @endsection

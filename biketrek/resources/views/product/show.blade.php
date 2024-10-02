@@ -5,7 +5,7 @@
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3SZk_6fWHKhPS1nx5vkmxjQVL2Z7TRX6qHA&s" class="img-fluid rounded-start" alt="Bike image">
+      <img src="{{ asset('storage/' . $viewData['product']['image']) }}" class="img-fluid rounded-start" alt="{{ $viewData['product']['name'] }}">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -13,13 +13,10 @@
            {{ $viewData["product"]["name"] }}
         </h5>
         <p class="card-text">{{ $viewData["product"]["description"] }}</p>
-        <p class="card-text"><strong>Price:</strong> ${{ $viewData["product"]["price"] }}</p>
+        <p class="card-text"><strong>Price:</strong> ${{ number_format($viewData["product"]["price"], 2) }}</p>
         <a class="btn btn-primary" href="{{ route('cart.add', ['id'=> $viewData["product"]["id"]]) }}">Add to cart</a>
-
       </div>
     </div>
   </div>
 </div>
-
 @endsection
- 	

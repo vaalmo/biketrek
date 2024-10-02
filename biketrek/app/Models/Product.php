@@ -99,4 +99,5 @@ class Product extends Model
     {
         $this->attributes['color'] = $color;
     }
+
 }
