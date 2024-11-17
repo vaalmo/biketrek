@@ -79,8 +79,6 @@ class UserCustomer extends Model{
         $this->reviews = $reviews;
     }
 
-
-
     public function orders(): HasMany{
         return $this->hasMany(Order::class);
     }
