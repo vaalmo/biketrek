@@ -1,19 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller 
 {
+
+    public function index() 
+    { 
+        $viewData = []; 
+        $viewData["title"] = "Admin Page - Products - BikeTrek"; 
+        $viewData["products"] = Product::all();
+        return view('admin.product.index')->with("viewData", $viewData); 
+    } 
+
     public function create(): View
     {
         $viewData = [];
         $viewData["title"] = "Create product";
-        return view('product.create')->with("viewData", $viewData);
+        return view('admin.product.create')->with("viewData", $viewData);
     }
 
     public function save(Request $request)
@@ -43,7 +53,7 @@ class AdminProductController extends Controller
         }
 
 
-        return redirect()->route('product.index')->with('success', 'Producto guardado correctamente');
+        return redirect()->route('admin.product.index')->with('success', 'Producto guardado correctamente');
     }
 
     public function edit(string $id): View
@@ -52,7 +62,7 @@ class AdminProductController extends Controller
         $product = Product::findOrFail($id);
         $viewData["title"] = "Edit product - " . $product->name;
         $viewData["product"] = $product;
-        return view('product.edit')->with("viewData", $viewData);
+        return view('admin.product.edit')->with("viewData", $viewData);
     }
 
     public function update(Request $request, string $id)
