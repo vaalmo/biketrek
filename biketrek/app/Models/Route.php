@@ -28,8 +28,6 @@ class Route extends Model{
         return $this->attributes['name'];
     }
 
-
-    //Los setters los ponemos como void, ya que no retornan nada
     public function setName(string $name): void{
         $this->attributes['name'] = $name;
     }

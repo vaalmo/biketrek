@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 class UserCustomer extends Model{
 
     protected $fillable = ['name', 'email', 'password', 'address', 'phoneNumber', 'role', 'orders', 'reviews', 'routes'];
+    
     public function getId(): string
     {
         return $this->attributes['id'];
@@ -21,8 +22,6 @@ class UserCustomer extends Model{
         return $this->attributes['name'];
     }
 
-
-    //Los setters los ponemos como void, ya que no retornan nada
     public function setName(string $name): void{
         $this->attributes['name'] = $name;
     }
