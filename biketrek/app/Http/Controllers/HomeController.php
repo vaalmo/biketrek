@@ -16,6 +16,7 @@ class HomeController extends Controller
 
         return view('home.index', $viewData);
     }
+    
     public function admin(): View
     {
         $viewData = [

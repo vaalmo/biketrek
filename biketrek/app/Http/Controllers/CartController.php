@@ -11,11 +11,11 @@ class CartController extends Controller
 {
     public function index(Request $request): View
     {
-        // Obtenemos todos los productos de la base de datos
+    
         $products = Product::all();
 
         $cartProducts = [];
-        $cartProductData = $request->session()->get('cart_product_data'); // obtenemos los productos guardados en la sesión
+        $cartProductData = $request->session()->get('cart_product_data');
         if ($cartProductData) {
             foreach ($products as $product) {
                 if (in_array($product->id, array_keys($cartProductData))) {
@@ -25,8 +25,8 @@ class CartController extends Controller
         }
 
         $viewData = [];
-        $viewData['title'] = 'Carrito - Tienda Online';
-        $viewData['subtitle'] = 'Carrito de compras';
+        $viewData['title'] = 'Cart - BikeTrek';
+        $viewData['subtitle'] = 'Cart';
         $viewData['products'] = $products;
         $viewData['cartProducts'] = $cartProducts;
 
@@ -35,7 +35,7 @@ class CartController extends Controller
 
     public function add(string $id, Request $request): RedirectResponse
     {
-        // Verificamos que el producto exista y tenga stock
+
         $product = Product::findOrFail($id);
 
         if ($product->stock > 0) {
