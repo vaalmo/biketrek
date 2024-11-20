@@ -20,8 +20,8 @@
       </a>
       <hr />
       <ul class="nav flex-column">
-        <li><a href="{{ route('admin.home') }}" class="nav-link text-white">- Home</a></li>
-        <li><a href="{{ route('admin.product.index') }}" class="nav-link text-white">- Products</a></li>
+        <li><a href="{{ route('admin.home') }}" class="nav-link text-white">Home</a></li>
+        <li><a href="{{ route('admin.product.index') }}" class="nav-link text-white">Products</a></li>
         <li>
           <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
         </li>
@@ -31,7 +31,7 @@
     <div class="col content-grey">
       <nav class="p-3 shadow text-end">
         <span class="profile-font">Admin</span>
-        <img class="img-profile rounded-circle" src="{{ asset('/img/undraw_profile.svg') }}">
+        <img class="img-profile rounded-circle" src="{{ asset('/undraw_profile.svg') }}">
       </nav>
 
       <div class="g-0 m-5">
