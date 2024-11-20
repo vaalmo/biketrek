@@ -18,7 +18,7 @@
                 @php
                     $product = \App\Models\Product::find($productId);
                 @endphp
-                @if ($product && $product->stock > 0)  <!-- Verifica que el producto existe y tiene stock -->
+                @if ($product && $product->stock > 0) 
                     <li>
                         {{ $product->name }} - ${{ number_format($product->price, 2) }} (Stock: {{ $product->stock }})
                         <input type="hidden" name="cart[][product_id]" value="{{ $product->id }}">

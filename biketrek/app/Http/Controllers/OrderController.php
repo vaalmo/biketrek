@@ -2,108 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Facades\DB;
+use App\Models\Item;
+use App\Models\Order;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        // Muestra todas las órdenes
-        $orders = Order::all();
-        return view('orders.index', compact('orders'));
+        $viewData = [];
+        $viewData["title"] = "Orders - Biketrek Store";
+        $viewData["subtitle"] = "List of orders";
+        $viewData['orders'] = Order::where('user_id', Auth::id())->get();
+        $viewData['success'] = session('viewData.success');
+
+        return view('orders.index')->with('viewData', $viewData);
     }
 
-    public function show($id)
+    public function show(string $id): View|RedirectResponse
     {
-        // Muestra una orden específica
-        $order = Order::findOrFail($id);
-        return view('orders.show', compact('order'));
-    }
-
-    public function create()
-    {
-        // Muestra el formulario para crear una orden
-        return view('orders.create');
-    }
-
-    public function store(Request $request)
-    {
-        // Validación de los datos de entrada
-        $validatedData = $request->validate([
-            'address' => 'required',
-            'cart' => 'required|array',
-            'cart.*.product_id' => 'required|exists:products,id',
-            'cart.*.quantity' => 'required|integer|min:1',
-        ]);
-
-        DB::beginTransaction(); // Inicia una transacción
-
+        $viewData = [];
         try {
-            // Crear la orden con los datos del formulario
-            $order = Order::create([
-                'status' => 'Pendiente', // Estado por defecto
-                'address' => $request->address,
-            ]);
             
-            // Inicializa el total de la orden
-            $total = 0;
-
-            // Recorre los productos en el carrito
-            foreach ($request->cart as $cartItem) {
-                $product = Product::findOrFail($cartItem['product_id']);
-                $quantity = $cartItem['quantity'];
-                
-                // Calcula el total de la orden
-                $total += $product->price * $quantity;
-
-                // Asocia los productos a la orden con la cantidad correspondiente
-                $order->products()->attach($product->id, ['quantity' => $quantity]);
-            }
-
-            // Actualiza el total de la orden
-            $order->update(['total' => $total]);
-
-            DB::commit(); // Confirma la transacción
-
-            return redirect()->route('orders.show', $order->id);
-        } catch (\Exception $e) {
-            DB::rollBack(); // Revierte la transacción si algo falla
-
-            return redirect()->back()->withErrors('Error al crear la orden: ' . $e->getMessage());
+            $order = Order::where('user_id', Auth::id())->findOrFail($id);
+        } catch (Exception $e) {
+            $viewData['objectType'] = 'Order';
+            return redirect()->route('error.nonexistent')->with('viewData', $viewData);
         }
+        
+        $viewData['order'] = $order;
+        $viewData['items'] = $order->getItems();
+
+        return view('order.show')->with('viewData', $viewData);
     }
 
-    public function edit($id)
+    public function create(Request $request): RedirectResponse
     {
-        // Muestra el formulario para editar una orden
-        $order = Order::findOrFail($id);
-        return view('orders.edit', compact('order'));
-    }
+        $cart = session()->get('cart', []);
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('viewData', ['success' => 'Your cart is empty.']);
+        }
 
-    public function update(Request $request, $id)
-    {
-        // Validación de los datos
-        $validatedData = $request->validate([
-            'status' => 'required',
-            'address' => 'required',
-        ]);
+        $order = new Order;
+        $order->setUserId(Auth::id());
+        $order->setTotal(0);
+        $order->save();
 
-        // Actualiza la orden
-        $order = Order::findOrFail($id);
-        $order->update($validatedData);
+        $totalPrice = 0;
+        foreach ($cart as $productId) {
+            $product = Product::findOrFail($productId);
+            $item = new Item;
+            $item->setOrder($order); 
+            $item->setProduct($product); 
+            $item->setQuantity(1);
+            $item->setPrice($product->getPrice()); 
+            $item->save();
 
-        return redirect()->route('orders.index');
-    }
+            $totalPrice += $product->getPrice();
+        }
 
-    public function destroy($id)
-    {
-        // Elimina la orden
-        $order = Order::findOrFail($id);
-        $order->delete();
+        $order->setTotal($totalPrice);
+        $order->save();
 
-        return redirect()->route('orders.index');
+        session()->forget('cart');
+
+        return redirect()->route('orders.index')->with('viewData', ['success' => 'Order created successfully!']);
     }
 }
