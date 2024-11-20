@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-class UserCustomer extends Model{
+class CustomUser extends Model{
 
     protected $fillable = ['name', 'email', 'password', 'address', 'phoneNumber', 'role', 'orders', 'reviews', 'routes'];
     
