@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminAuthMiddleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,12 +21,15 @@ use Illuminate\Support\Facades\Auth;
     Route::put('/orders/{id}', 'App\Http\Controllers\OrderController@update')->name('orders.update');
     Route::delete('/orders/{id}/delete', 'App\Http\Controllers\OrderController@destroy')->name('orders.destroy');
 
-    Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home");
-    Route::get('/admin/products', 'App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
-    Route::get('/admin/products/create', 'App\Http\Controllers\Admin\AdminProductController@create')->name("admin.product.create");
-    Route::post('/admin/products/save', 'App\Http\Controllers\Admin\AdminProductController@save')->name("admin.product.save");
-    Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name('admin.product.edit'); 
-    Route::put('/admin/products/{id}', 'App\Http\Controllers\Admin\AdminProductController@update')->name('admin.product.update'); 
-    Route::delete('/admin/products/{id}/delete', 'App\Http\Controllers\Admin\AdminProductController@delete')->name('admin.product.delete');
+
+    Route::middleware(['auth', AdminAuthMiddleware::class])->group(function () {
+        Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home");
+        Route::get('/admin/products', 'App\Http\Controllers\Admin\AdminProductController@index')->name("admin.product.index");
+        Route::get('/admin/products/create', 'App\Http\Controllers\Admin\AdminProductController@create')->name("admin.product.create");
+        Route::post('/admin/products/save', 'App\Http\Controllers\Admin\AdminProductController@save')->name("admin.product.save");
+        Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name('admin.product.edit'); 
+        Route::put('/admin/products/{id}', 'App\Http\Controllers\Admin\AdminProductController@update')->name('admin.product.update'); 
+        Route::delete('/admin/products/{id}/delete', 'App\Http\Controllers\Admin\AdminProductController@delete')->name('admin.product.delete');
+    });
 
     Auth::routes();
