@@ -11,19 +11,16 @@ class Order extends Model
 {
     protected $fillable = ['status', 'address', 'total', 'user_id'];
 
-    // Relación con el usuario
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relación con los productos
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
 
-    // Obtener el total calculado de la orden
     public function getTotal(): float
     {
         return $this->total ?? $this->products->sum(function ($product) {
@@ -31,7 +28,6 @@ class Order extends Model
         });
     }
 
-    // Actualizar el total manualmente
     public function setTotal(float $total): void
     {
         $this->attributes['total'] = $total;
